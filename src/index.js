@@ -17,9 +17,9 @@ function handleInput(e) {
   refs.countryInfo.innerHTML = '';
   const input = e.target.value.trim();
   if (input != '') {
-    const countriesArrPromice = fetchCountries(input);
-    countriesArrPromice
+    fetchCountries(input)
       .then(p => {
+        console.log('array', p);
         if (p.length > 10) {
           notifyTooManyMatches();
         } else if (p.length === 1) {
@@ -51,7 +51,6 @@ function createCountryMarkup(country) {
   for (key in country.languages) {
     lang.push(country.languages[key]);
   }
-  console.log(lang);
   return `
     <ul>
     <li><img src='${country.flags.svg}' width='30' height='30'><h2>${
@@ -63,8 +62,9 @@ function createCountryMarkup(country) {
     </ul>
     `;
 }
-function notifyError() {
+function notifyError(e) {
   Notify.failure('Oops, there is no country with that name');
+  console.log(e);
 }
 function notifyTooManyMatches() {
   Notify.info('Too many matches found. Please enter a more specific name.');
